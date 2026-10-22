@@ -23,11 +23,16 @@ All numbers: Jetson AGX Orin 64GB (SM87, MAXN, jetson_clocks), LIBERO-10, 500 ep
 The shipped recipe and the no-GEG8 variant sit within binomial noise of each other
 (+-2.3 pp at N=500); the fused kernel buys -3.2 ms at a noise-level quality delta.
 
+The whole pipeline was re-run clean-room from this tree (fresh FlashRT clone at the pin,
+overlay, Orin build from the documented cmake line, recipe serve, closed-loop task0 eval
+from x86): 47/50 (94%) vs 45/50 for the same task slice of the 500-episode record, at the
+same ~112 ms client-caliber p50.
+
 ## What we changed on top of FlashRT
 
 FlashRT (Apache-2.0, arXiv 2606.20537) is the upstream engine this work builds on; see
-[NOTICE](NOTICE) and Acknowledgements. On top of FlashRT @ f2f04db8 the overlay is 18 files
-(4 new + 14 modified, listed in flashrt_overlay/README.md):
+[NOTICE](NOTICE) and Acknowledgements. On top of FlashRT @ f2f04db8 the overlay is 19 files
+(4 new + 15 modified, listed in flashrt_overlay/README.md):
 
 - **GU_MIX K16 channel-split INT8**: per-layer 16-channel INT8 gate/up side weights with the
   BF16 side kept for outlier channels (Q2-ext mix), replacing the naive full-INT8 gate/up that
@@ -74,7 +79,7 @@ run_pipeline.sh chains steps 1-3 with fail-fast guards (downloads, conversion, s
 
 | Path | What it is |
 |---|---|
-| flashrt_overlay/ | our 18-file overlay over FlashRT @ f2f04db8 + apply script |
+| flashrt_overlay/ | our 19-file overlay over FlashRT @ f2f04db8 + apply script |
 | export/tools/convert_official_weights.py | fp32->bf16 bundle converter (byte-exact verified) |
 | runtime/server_flashrt_official_ws.py | production server (ws / uds / shm transports) |
 | benchmark/ | closed-loop eval (task0 + multitask), parity gate, transport bench |
