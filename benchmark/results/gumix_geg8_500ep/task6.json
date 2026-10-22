@@ -1,0 +1,367 @@
+{
+  "episodes": [
+    {
+      "episode": 0,
+      "success": true,
+      "steps": 224,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 135.5
+    },
+    {
+      "episode": 1,
+      "success": true,
+      "steps": 251,
+      "policy_calls": 49,
+      "client_infer_ms_mean": 133.0
+    },
+    {
+      "episode": 2,
+      "success": true,
+      "steps": 260,
+      "policy_calls": 50,
+      "client_infer_ms_mean": 135.8
+    },
+    {
+      "episode": 3,
+      "success": true,
+      "steps": 251,
+      "policy_calls": 49,
+      "client_infer_ms_mean": 132.9
+    },
+    {
+      "episode": 4,
+      "success": true,
+      "steps": 204,
+      "policy_calls": 39,
+      "client_infer_ms_mean": 131.1
+    },
+    {
+      "episode": 5,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 131.5
+    },
+    {
+      "episode": 6,
+      "success": true,
+      "steps": 257,
+      "policy_calls": 50,
+      "client_infer_ms_mean": 135.2
+    },
+    {
+      "episode": 7,
+      "success": true,
+      "steps": 197,
+      "policy_calls": 38,
+      "client_infer_ms_mean": 135.9
+    },
+    {
+      "episode": 8,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 131.7
+    },
+    {
+      "episode": 9,
+      "success": true,
+      "steps": 285,
+      "policy_calls": 55,
+      "client_infer_ms_mean": 135.4
+    },
+    {
+      "episode": 10,
+      "success": true,
+      "steps": 211,
+      "policy_calls": 41,
+      "client_infer_ms_mean": 137.1
+    },
+    {
+      "episode": 11,
+      "success": true,
+      "steps": 220,
+      "policy_calls": 42,
+      "client_infer_ms_mean": 134.1
+    },
+    {
+      "episode": 12,
+      "success": true,
+      "steps": 221,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 133.3
+    },
+    {
+      "episode": 13,
+      "success": true,
+      "steps": 218,
+      "policy_calls": 42,
+      "client_infer_ms_mean": 132.9
+    },
+    {
+      "episode": 14,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 131.9
+    },
+    {
+      "episode": 15,
+      "success": true,
+      "steps": 193,
+      "policy_calls": 37,
+      "client_infer_ms_mean": 134.5
+    },
+    {
+      "episode": 16,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 134.2
+    },
+    {
+      "episode": 17,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 133.6
+    },
+    {
+      "episode": 18,
+      "success": true,
+      "steps": 223,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 131.6
+    },
+    {
+      "episode": 19,
+      "success": true,
+      "steps": 207,
+      "policy_calls": 40,
+      "client_infer_ms_mean": 132.5
+    },
+    {
+      "episode": 20,
+      "success": true,
+      "steps": 225,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 134.9
+    },
+    {
+      "episode": 21,
+      "success": true,
+      "steps": 246,
+      "policy_calls": 48,
+      "client_infer_ms_mean": 131.5
+    },
+    {
+      "episode": 22,
+      "success": true,
+      "steps": 223,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 134.2
+    },
+    {
+      "episode": 23,
+      "success": true,
+      "steps": 240,
+      "policy_calls": 46,
+      "client_infer_ms_mean": 135.7
+    },
+    {
+      "episode": 24,
+      "success": true,
+      "steps": 212,
+      "policy_calls": 41,
+      "client_infer_ms_mean": 135.1
+    },
+    {
+      "episode": 25,
+      "success": true,
+      "steps": 200,
+      "policy_calls": 38,
+      "client_infer_ms_mean": 134.6
+    },
+    {
+      "episode": 26,
+      "success": true,
+      "steps": 248,
+      "policy_calls": 48,
+      "client_infer_ms_mean": 133.8
+    },
+    {
+      "episode": 27,
+      "success": true,
+      "steps": 266,
+      "policy_calls": 52,
+      "client_infer_ms_mean": 132.1
+    },
+    {
+      "episode": 28,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 132.2
+    },
+    {
+      "episode": 29,
+      "success": true,
+      "steps": 200,
+      "policy_calls": 38,
+      "client_infer_ms_mean": 134.0
+    },
+    {
+      "episode": 30,
+      "success": true,
+      "steps": 268,
+      "policy_calls": 52,
+      "client_infer_ms_mean": 136.0
+    },
+    {
+      "episode": 31,
+      "success": true,
+      "steps": 194,
+      "policy_calls": 37,
+      "client_infer_ms_mean": 154.9
+    },
+    {
+      "episode": 32,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 132.5
+    },
+    {
+      "episode": 33,
+      "success": true,
+      "steps": 221,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 136.9
+    },
+    {
+      "episode": 34,
+      "success": true,
+      "steps": 200,
+      "policy_calls": 38,
+      "client_infer_ms_mean": 140.7
+    },
+    {
+      "episode": 35,
+      "success": true,
+      "steps": 230,
+      "policy_calls": 44,
+      "client_infer_ms_mean": 130.5
+    },
+    {
+      "episode": 36,
+      "success": true,
+      "steps": 207,
+      "policy_calls": 40,
+      "client_infer_ms_mean": 135.7
+    },
+    {
+      "episode": 37,
+      "success": true,
+      "steps": 222,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 133.2
+    },
+    {
+      "episode": 38,
+      "success": true,
+      "steps": 196,
+      "policy_calls": 38,
+      "client_infer_ms_mean": 134.8
+    },
+    {
+      "episode": 39,
+      "success": true,
+      "steps": 229,
+      "policy_calls": 44,
+      "client_infer_ms_mean": 134.0
+    },
+    {
+      "episode": 40,
+      "success": true,
+      "steps": 209,
+      "policy_calls": 40,
+      "client_infer_ms_mean": 135.8
+    },
+    {
+      "episode": 41,
+      "success": true,
+      "steps": 229,
+      "policy_calls": 44,
+      "client_infer_ms_mean": 136.5
+    },
+    {
+      "episode": 42,
+      "success": true,
+      "steps": 205,
+      "policy_calls": 39,
+      "client_infer_ms_mean": 135.6
+    },
+    {
+      "episode": 43,
+      "success": true,
+      "steps": 204,
+      "policy_calls": 39,
+      "client_infer_ms_mean": 133.7
+    },
+    {
+      "episode": 44,
+      "success": true,
+      "steps": 221,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 134.6
+    },
+    {
+      "episode": 45,
+      "success": true,
+      "steps": 216,
+      "policy_calls": 42,
+      "client_infer_ms_mean": 131.8
+    },
+    {
+      "episode": 46,
+      "success": true,
+      "steps": 210,
+      "policy_calls": 40,
+      "client_infer_ms_mean": 132.9
+    },
+    {
+      "episode": 47,
+      "success": true,
+      "steps": 223,
+      "policy_calls": 43,
+      "client_infer_ms_mean": 137.7
+    },
+    {
+      "episode": 48,
+      "success": true,
+      "steps": 212,
+      "policy_calls": 41,
+      "client_infer_ms_mean": 132.6
+    },
+    {
+      "episode": 49,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 130.6
+    }
+  ],
+  "summary": {
+    "task": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
+    "task_idx": 6,
+    "episodes": 50,
+    "successes": 42,
+    "success_rate": 0.84,
+    "steps_total": 13618,
+    "policy_calls_total": 2640,
+    "infer_ms_p50": 131.5,
+    "infer_ms_p95": 151.7,
+    "infer_ms_mean": 134.0,
+    "wall_s": null
+  }
+}

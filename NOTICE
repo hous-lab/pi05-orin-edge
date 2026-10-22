@@ -1,0 +1,19 @@
+NOTICE
+======
+
+This project is licensed under the Apache License, Version 2.0 (see `LICENSE`).
+It builds on the third-party components listed below. Each component remains
+under its own license; the table maps components to their upstream sources and
+to where they appear in this repository.
+
+| Component | Upstream | Upstream license | Where in this repo |
+|---|---|---|---|
+| FlashRT inference engine (skeleton, pipeline, INT8 CUTLASS kernels) | flashrt-project/FlashRT, arXiv 2606.20537 | Apache-2.0 | cloned at pin by `flashrt_overlay/apply_overlay.sh`; our modifications in `flashrt_overlay/tree/` |
+| π0.5 weights (`lerobot/pi05_libero_base`) | Physical Intelligence, via lerobot | see upstream terms | linked in `ckpts/README.md`, not redistributed |
+| openpi (π0.5 training/protocol reference, norm_stats schema, LIBERO eval protocol) | Physical-Intelligence/openpi | Apache-2.0 | protocol/norm_stats schema only; referenced in docs |
+| LIBERO benchmark | zap-ai/LIBERO | MIT | dataset + sim; linked in `data/README.md`, not redistributed |
+| PaliGemma tokenizer (`tokenizer.model`) | google/paligemma-3b-pt-224 | Gemma terms of use | linked in `ckpts/README.md`, not redistributed |
+| CUTLASS | NVIDIA/cutlass v4.4.2 | BSD-3-Clause | cloned at pin into `third_party/cutlass` by `apply_overlay.sh` |
+| PyTorch | pytorch | BSD-3-Clause | runtime dependency |
+| numpy / websockets / msgpack | respective upstreams | BSD/PSF/Apache | runtime dependencies |
+| lerobot | huggingface/lerobot | Apache-2.0 | LIBERO sim env wrapper used by the closed-loop harness |

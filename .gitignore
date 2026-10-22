@@ -1,0 +1,42 @@
+# regenerable build artifacts
+*.o
+*.a
+*.so
+build/
+build-*/
+__pycache__/
+*.pyc
+
+# regenerable deployment artifacts
+*.log
+*.nsys-rep
+*.ncu-rep
+*.sqlite
+*.npy
+
+# weights / upstream-owned artifacts land here (never committed) - see ckpts/README.md
+ckpts/*
+!ckpts/README.md
+
+# upstream dataset roots land here (never committed) - see data/README.md
+data/*
+!data/README.md
+
+# eval run artifacts: commit the json records + README, ignore videos and run dirs
+benchmark/results/videos*/
+benchmark/results/*.mp4
+!benchmark/results/README.md
+!benchmark/results/*/
+!benchmark/results/**/*.json
+
+# local config: per-machine paths
+*.local.env
+
+# OMC/session state
+.omc/
+
+# superseded local-only scripts (kept on disk, not part of the release)
+environment/download_checkpoint_gcs.sh
+environment/download_checkpoint_gcs_v2.sh
+environment/download_lerobot_modelscope.sh
+environment/setup_orin_jax
