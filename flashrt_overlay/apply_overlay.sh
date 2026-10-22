@@ -35,6 +35,7 @@ git -C "$TARGET" checkout "$REV"
 echo "== cloning CUTLASS $CUTLASS_TAG (upstream CMake expects third_party/cutlass)"
 try_clone https://github.com/NVIDIA/cutlass.git "$TARGET/third_party/cutlass" --depth 1 --branch "$CUTLASS_TAG"
 
-echo "== applying overlay ($(find "$REPO_ROOT/flashrt_overlay/tree" -type f | wc -l) files)"
-cp -r "$REPO_ROOT/flashrt_overlay/tree/." "$TARGET/"
+echo "== applying overlay ($(find "$REPO_ROOT/flashrt_overlay/tree" -type f -not -path "*/.omc*" | wc -l) files)"
+# copy via tar so stray tool-state dirs (.omc etc.) never leak into the consumer tree
+tar -C "$REPO_ROOT/flashrt_overlay/tree" -cp --exclude='.omc' -f - . | tar -C "$TARGET" -xf -
 echo "done. next: build per docs/pipeline_guide.md (cmake -B build ...), then run the parity gate."

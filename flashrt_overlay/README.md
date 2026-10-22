@@ -13,9 +13,9 @@ The engine is [FlashRT](https://github.com/flashrt-project/FlashRT) (Apache-2.0,
 
 ## Why an overlay, not a fork
 
-Fourteen modified files + four new kernels, all additive and env-gated: with every `FVK_*`/`FLASHRT_*` variable at 0/absent, the engine behaves like upstream at this revision. A fork would entangle our operator work with upstream HEAD (which added Thor/SM120/MPS work after our base) and force consumers to track upstream churn they do not need. The overlay keeps our diff reviewable, the pin reproducible, and upstreaming straightforward.
+Fifteen modified files + four new kernels, all additive and env-gated: with every `FVK_*`/`FLASHRT_*` variable at 0/absent, the engine behaves like upstream at this revision. A fork would entangle our operator work with upstream HEAD (which added Thor/SM120/MPS work after our base) and force consumers to track upstream churn they do not need. The overlay keeps our diff reviewable, the pin reproducible, and upstreaming straightforward.
 
-## File list (18 files)
+## File list (19 files)
 
 ### New kernels (4)
 
