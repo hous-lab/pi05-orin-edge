@@ -24,12 +24,17 @@ the production bundle. `--verify <ref>` compares per-tensor bytes against an exi
 
 ```bash
 bash flashrt_overlay/apply_overlay.sh   # clones FlashRT @ f2f04db8 + CUTLASS v4.4.2, copies overlay files
-cd ../FlashRT                           # target tree (default: sibling of the repo)
+cd ../FlashRT                           # nvcc must be on PATH (/usr/local/cuda/bin)
 mkdir -p build && cd build
-cmake .. -DENABLE_SM80_INT8_CUTLASS=ON \
-  -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release \
+  -DFA2_ARCH_NATIVE_ONLY=ON -DFA2_DTYPES=bf16 -DFA2_HDIMS="96;128;256"
 make -j8                                # kernels .so lands inside the FlashRT tree
 ```
+
+The FA2 flags keep the vendored FlashAttention matrix to the detected arch (the default
+full matrix targets compute_120, which CUDA 12.6 on L4T cannot build). SM80-family
+CUTLASS INT8 auto-enables on sm_87; `-DENABLE_SM80_INT8_CUTLASS=ON` is the explicit
+spelling.
 
 The overlay build produces the kernels .so that flash_rt loads; the startup fingerprint lines
 (next section) are the checkpoint that the quantization mix loaded as designed.
@@ -55,7 +60,9 @@ sourced - the server silently runs a different configuration.
 
 `libero_eval_multitask.py` wraps `libero_eval_task0.py` per task (0..9), 50 episodes each,
 writes one JSON per task, and prints a SUMMARY line per task. A 500-episode run takes hours;
-for a quick gate use `libero_eval_task0.py --num_episodes 20` (the release gate is 19/20+).
+for a quick gate use `libero_eval_task0.py --num_episodes 20`. The task0 production anchor is
+45/50 (90%) over the 50-episode protocol, so a quick gate of 18/20 is consistent with the
+anchor; 19/20+ is a strong pass.
 
 ## Parity harness (optional, openpi reference)
 

@@ -16,7 +16,7 @@ V=$PROJ/.venv-orin/bin
 # 2) offline install of python-only deps (no network, does not touch NVIDIA stack)
 $V/pip install --no-index --find-links "$PROJ/wheelhouse" \
   transformers==4.53.2 sentencepiece protobuf numpy==1.26.4 pillow einops safetensors \
-  websockets openpi-client msgpack tyro
+  websockets openpi-client dm-tree msgpack tyro
 
 # 3) import gate: FlashRT + server deps
 FLASHRT_ROOT=${FLASHRT_ROOT:-$PROJ/../FlashRT} \

@@ -14,6 +14,7 @@ einops
 safetensors
 websockets
 openpi-client
+dm-tree
 msgpack
 tyro
 typing-extensions
