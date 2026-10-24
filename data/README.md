@@ -12,5 +12,4 @@ Upstream sources (link-only, nothing committed here):
 - The openpi-client wheel (server protocol client) comes from PyPI.
 
 Practical setup on x86 (what we use): clone openpi, install the LIBERO deps into the eval
-venv, then run the eval with `PYTHONPATH=<openpi>/third_party/libero`. See
-docs/pipeline_guide.md for the full command lines.
+venv, then run the eval with `PYTHONPATH=<openpi>/third_party/libero`. See [docs/pipeline_guide.md](../docs/pipeline_guide.md) for the full command lines.

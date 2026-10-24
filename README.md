@@ -58,22 +58,22 @@ PYTHONPATH=<openpi>/third_party/libero python benchmark/libero_eval_multitask.py
   --host <orin-ip> --port 8020    # <orin-ip> = 192.168.55.1 on the stock Jetson USB link
 ```
 
-run_pipeline.sh chains steps 1-3 with fail-fast guards (downloads, conversion, sync).
+[run_pipeline.sh](run_pipeline.sh) chains steps 1-3 with fail-fast guards (downloads, conversion, sync).
 
 ## Repo map
 
 | Path | What it is |
 |---|---|
-| flashrt_overlay/ | our 19-file overlay over FlashRT @ f2f04db8 + apply script |
-| export/tools/convert_official_weights.py | fp32->bf16 bundle converter (byte-exact verified) |
-| runtime/server_flashrt_official_ws.py | production server (ws / uds / shm transports) |
-| benchmark/ | closed-loop eval (task0 + multitask), parity gate, transport bench |
-| benchmark/results/ | full 500-episode records for the three arms |
-| configs/gumix_geg8.env | the 13-env production recipe |
-| environment/ | version locks + offline wheelhouse + download scripts |
-| tools/ | K16 mix-set generator + outlier probe |
-| ckpts/ data/ | upstream artifacts: link-only policy + download table |
-| docs/ | environment, pipeline, recipe semantics, quantization journey, lessons |
+| [flashrt_overlay/](flashrt_overlay/) | our 19-file overlay over FlashRT @ f2f04db8 + apply script |
+| [export/tools/convert_official_weights.py](export/tools/convert_official_weights.py) | fp32->bf16 bundle converter (byte-exact verified) |
+| [runtime/server_flashrt_official_ws.py](runtime/server_flashrt_official_ws.py) | production server (ws / uds / shm transports) |
+| [benchmark/](benchmark/) | closed-loop eval (task0 + multitask), parity gate, transport bench |
+| [benchmark/results/](benchmark/results/) | full 500-episode records for the three arms |
+| [configs/gumix_geg8.env](configs/gumix_geg8.env) | the 13-env production recipe |
+| [environment/](environment/) | version locks + offline wheelhouse + download scripts |
+| [tools/](tools/) | K16 mix-set generator + outlier probe |
+| [ckpts/](ckpts/) [data/](data/) | upstream artifacts: link-only policy + download table |
+| [docs/](docs/) | environment, pipeline, recipe semantics, quantization journey, lessons |
 
 ## Acknowledgements
 

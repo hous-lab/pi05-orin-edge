@@ -58,7 +58,7 @@ sourced - the server silently runs a different configuration.
 
 ## Eval (stage 7)
 
-`libero_eval_multitask.py` wraps `libero_eval_task0.py` per task (0..9), 50 episodes each,
+[libero_eval_multitask.py](../benchmark/libero_eval_multitask.py) wraps [libero_eval_task0.py](../benchmark/libero_eval_task0.py) per task (0..9), 50 episodes each,
 writes one JSON per task, and prints a SUMMARY line per task. A 500-episode run takes hours;
 for a quick gate use `libero_eval_task0.py --num_episodes 20`. The task0 production anchor is
 45/50 (90%) over the 50-episode protocol, so a quick gate of 18/20 is consistent with the
@@ -66,5 +66,5 @@ anchor; 19/20+ is a strong pass.
 
 ## Parity harness (optional, openpi reference)
 
-`benchmark/parity_gate_official.py` three-way compares (openpi reference fp32 / our bundle
+[benchmark/parity_gate_official.py](../benchmark/parity_gate_official.py) three-way compares (openpi reference fp32 / our bundle
 bf16 / overlay stack) on synthetic frames. Needs the openpi repo: `OPENPI_SRC=<openpi>/src`.

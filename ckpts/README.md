@@ -8,7 +8,7 @@ the only network fetches are the two small asset files and the fp32 source weigh
 ## Pipeline layout
 
 There is exactly **one weight download** (the fp32 source). The deploy bundle is never
-downloaded - the converter generates it locally (stage 2 of `run_pipeline.sh`), so the
+downloaded - the converter generates it locally (stage 2 of [run_pipeline.sh](../run_pipeline.sh)), so the
 download table below has three rows, not four. The tree shows where files end up on disk;
 the table shows what comes from the network.
 
@@ -31,12 +31,12 @@ ckpts/
 | `norm_stats.json` (1914 B) | [openpi-assets GCS](https://storage.googleapis.com/openpi-assets/checkpoints/pi05_libero/assets/physical-intelligence/libero/norm_stats.json) | sha256 `b3a44bb2810436fb62917decaea58bd4d9110255df527dea21e8fd40c960bd84` | `ckpts/pi05_libero_official/norm_stats.json` |
 | `tokenizer.model` (4.1 MB) | [big_vision bucket](https://storage.googleapis.com/big_vision/paligemma_tokenizer.model) | md5 `1420adc9856720a559e8a87284b195e2` | `ckpts/pi05_libero_official/assets/tokenizer/tokenizer.model` |
 
-All three rows have ready-made download scripts under `environment/` that also verify the
-hash: `download_lerobot_base.sh`, `download_norm_stats.sh`, `download_paligemma_tokenizer.sh`.
+All three rows have ready-made download scripts under [environment/](../environment/) that also verify the
+hash: [environment/download_lerobot_base.sh](../environment/download_lerobot_base.sh), [environment/download_norm_stats.sh](../environment/download_norm_stats.sh), [environment/download_paligemma_tokenizer.sh](../environment/download_paligemma_tokenizer.sh).
 
 ## Deploy bundle (generated, not downloaded)
 
-`export/tools/convert_official_weights.py` converts the fp32 source into the deploy bundle:
+[export/tools/convert_official_weights.py](../export/tools/convert_official_weights.py) converts the fp32 source into the deploy bundle:
 all 813 tensors BF16 (fp32→bf16 round-to-nearest-even), embed_tokens materialized from the
 tied lm_head and inserted right after it, metadata dropped. The output is byte-identical to
 the bundle used for every result in this repo (verified per-tensor against the production
