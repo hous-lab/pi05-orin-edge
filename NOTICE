@@ -9,9 +9,9 @@ to where they appear in this repository.
 | Component | Upstream | Upstream license | Where in this repo |
 |---|---|---|---|
 | FlashRT inference engine (skeleton, pipeline, INT8 CUTLASS kernels) | flashrt-project/FlashRT, arXiv 2606.20537 | Apache-2.0 | cloned at pin by `flashrt_overlay/apply_overlay.sh`; our modifications in `flashrt_overlay/tree/` |
-| π0.5 weights (`lerobot/pi05_libero_base`) | Physical Intelligence, via lerobot | see upstream terms | linked in `ckpts/README.md`, not redistributed |
+| π0.5 weights (`lerobot/pi05_libero_base`) | Physical Intelligence, via lerobot | Gemma Terms of Use (per upstream model card) | linked in `ckpts/README.md`, not redistributed - this also covers our locally generated bf16 deploy bundle, a derivative of these weights |
 | openpi (π0.5 training/protocol reference, norm_stats schema, LIBERO eval protocol) | Physical-Intelligence/openpi | Apache-2.0 | protocol/norm_stats schema only; referenced in docs |
-| LIBERO benchmark | zap-ai/LIBERO | MIT | dataset + sim; linked in `data/README.md`, not redistributed |
+| LIBERO benchmark | Lifelong-Robot-Learning/LIBERO | MIT | dataset + sim; linked in `data/README.md`, not redistributed |
 | PaliGemma tokenizer (`tokenizer.model`) | google/paligemma-3b-pt-224 | Gemma terms of use | linked in `ckpts/README.md`, not redistributed |
 | CUTLASS | NVIDIA/cutlass v4.4.2 | BSD-3-Clause | cloned at pin into `third_party/cutlass` by `apply_overlay.sh` |
 | PyTorch | pytorch | BSD-3-Clause | runtime dependency |

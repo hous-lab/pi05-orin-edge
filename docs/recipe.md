@@ -10,7 +10,7 @@ before launching the server; the startup fingerprint is the proof it took effect
 | FVK_PI05_RTX_INT8_DECODER_ONLY | 1 | INT8 GEMMs for the 90 decoder GEMM weights |
 | FVK_PI05_RTX_ENC8_ATTN | 1 | encoder ATTN (qkv+o) INT8, 36 GEMMs |
 | FVK_PI05_RTX_ENC8_MLP | 1 | enables the encoder MLP path (required for the mix below) |
-| FVK_PI05_RTX_ENC8_MIX | 1 | Q2-ext channel-split mix on gate/up |
+| FVK_PI05_RTX_ENC8_MIX | 1 | K16 channel-split mix on gate/up: keep the K=16 largest-outlier channels in BF16 |
 | FVK_PI05_RTX_ENC8_MIX_FILE | ${PI05_MIX_SETS} | the K16 channel sets ([tools/mix_sets_k16.npz](../tools/mix_sets_k16.npz)) |
 | FVK_PI05_RTX_ENC8_MIX_GEG8 | 1 | fused gate/up+GEGLU epilogue kernel on the mix path |
 | FVK_PI05_RTX_ENC8_DOWN | 1 | encoder DOWN GEMMs INT8 (18 GEMMs) |

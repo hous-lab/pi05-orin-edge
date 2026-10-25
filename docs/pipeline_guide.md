@@ -53,7 +53,7 @@ CUDA Graph captured for Pi05Pipeline (+ decoder-only variant)
 serving on 0.0.0.0:8020
 ```
 
-If GATEUP shows 36/36 full-INT8 or the Q2-ext mix line is missing, the recipe file was not
+If GATEUP shows 36/36 full-INT8 or the channel-split mix line is missing, the recipe file was not
 sourced - the server silently runs a different configuration.
 
 ## Eval (stage 7)
