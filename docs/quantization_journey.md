@@ -1,7 +1,7 @@
 # Quantization journey
 
 How the INT8 configuration was found, including the dead ends. Model: pi05_libero (PaliGemma
-vision tower + 27-layer Gemma LM + action expert, ~3.5B params). Target: Jetson AGX Orin 64GB.
+vision tower + 27-layer Gemma LM + action expert, ~3.6B params). Target: Jetson AGX Orin 64GB.
 
 ## The funnel
 
