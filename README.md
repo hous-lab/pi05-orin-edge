@@ -6,6 +6,15 @@ Edge deployment of [**pi0.5**](https://github.com/Physical-Intelligence/openpi) 
 
 **How it fits together**: a two-machine topology - the LIBERO simulator and the openpi-protocol client run on an x86 host, the model server runs on Orin over the Jetson USB link. The server wraps the [FlashRT](https://github.com/flashrt-project/FlashRT) engine (PaliGemma VLM: SigLIP vision tower + Gemma LM, plus the action expert under single-step flow-matching denoise captured in a CUDA Graph); the overlay swaps in the INT8-mixed GEMM path, the fused gate/up+GEGLU epilogue kernel, and the fast-quant plumbing inside that engine.
 
+![two-machine deployment topology with per-stage latency calibers](assets/overview.png)
+
+## Demo
+
+Two closed-loop episodes recorded by the eval harness on the shipped recipe: the frames are the exact 224x224 agentview images the policy consumed, every panel number is read from the committed records at compose time, and the clips are labeled simulation (LIBERO-10, MuJoCo) rather than real hardware. Master MP4s ship as v1.0 release assets; [scripts/compose_demo.py](scripts/compose_demo.py) regenerates them from any raw episode recording plus the committed task JSON.
+
+- Success - task 0, episode 0: *put both the alphabet soup and the tomato sauce in the basket* - 251 steps, 49 policy calls, client round-trip mean 118.4 ms: [demo_task0_ep0_success.mp4](../../releases/download/v1.0/demo_task0_ep0_success.mp4)
+- Failure - task 2, episode 1: *turn on the stove and put the moka pot on it* - 530-step timeout, 104 policy calls (the clip shows the first 30 s of a 53 s episode): [demo_task2_ep1_failure.mp4](../../releases/download/v1.0/demo_task2_ep1_failure.mp4)
+
 ## Results
 
 > LIBERO-10, 500 episodes(10 tasks x 50), seed 7, replan 5, H=10 chunk, [results data](benchmark/results/README.md).
@@ -25,6 +34,12 @@ The production and the no-GEG8 variant sit within binomial noise of each other (
 The two RTX 4090 Laptop arms rerun the same protocol with the device as the only variable: both stay within binomial noise of Orin, and on x86 the workload is compute/attention-bound, so the INT8 recipe and FP8 land at the same model p50 (~25 ms, 3.7x Orin) - see [platforms/x86/README.md](platforms/x86/README.md) for the control-variable design, fingerprints, and the full-percentile latency records.
 
 The shipped Orin recipe also holds a full-percentile record from a dedicated 500-episode rerun: p50 93.30 / p95 93.80 / p99 93.94 / max 125.1 ms, jitter (p95−p50) 0.50 ms across 26,650 policy calls on locked clocks - the tail is essentially flat, and the rerun doubles as a second accuracy anchor (462/500 = 92.4%), archived in [benchmark/results/orin_gumix_geg8_stats_500ep/](benchmark/results/orin_gumix_geg8_stats_500ep/).
+
+![per-call latency timeline + histogram of the tagged stats rerun](assets/benchmarks/latency_timeline.png)
+*Latency record of the tagged stats rerun: 26,650 server-side policy calls from the 500-episode LIBERO-10 closed-loop run on Jetson AGX Orin (GU_MIX + GEG8, locked clocks, October 2026). The tail is flat - isolated spikes reach 125 ms while p99 stays at 93.94 ms. Regenerate with `python3 scripts/make_benchmark_figures.py`.*
+
+![per-task success counts across the six 500-episode arms](assets/benchmarks/task_success.png)
+*Per-task success counts for the six committed 500-episode arms. Config-level drift stays within binomial noise except on cliff tasks (task2 / task8) that shift per config - the reason every acceptance decision in this repo is made at the 500-episode caliber. Regenerate with `python3 scripts/make_benchmark_figures.py`.*
 
 ## What we changed on top of FlashRT
 

@@ -29,6 +29,9 @@ benchmark/results/*.mp4
 !benchmark/results/*/
 !benchmark/results/**/*.json
 
+# demo clips: released as v1.0 release assets + README user-attachments, never in git
+assets/demos/
+
 # local config: per-machine paths
 *.local.env
 
