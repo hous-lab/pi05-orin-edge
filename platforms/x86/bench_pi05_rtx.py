@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""π0.5 FlashRT RTX FP8 latency bench on the 4090 Laptop.
+"""pi0.5 FlashRT RTX FP8 latency bench on the 4090 Laptop.
 
 Caliber: Orin production config - 2 views, pool=1, 27 layers, 1 step,
 FP8, CUDA graph, exact-state mode. Model caliber = wall p50 of

@@ -1,6 +1,6 @@
-# pi05-orin-edge: π0.5 VLA on Jetson AGX Orin at 92 ms
+# pi05-orin-edge: pi0.5 VLA on Jetson AGX Orin at 92 ms
 
-[π0.5](https://github.com/Physical-Intelligence/openpi) is a ~3.6B-parameter VLA model, and this repo deploys it in real time on Jetson AGX Orin at **92 ms** per model inference and **92.2%** LIBERO-10 closed-loop success - the same accuracy class as the official floating-point model (*92.4%*), with no quality traded for speed. The latency comes from an outlier-aware INT8 weight-only path (channel-split outlier handling, fused CUDA kernels, CUDA-Graph 1-step denoising) running on the open-source FlashRT engine, and every number is backed by **full 500-episode** records in this repo.
+Edge deployment of [**pi0.5**](https://github.com/Physical-Intelligence/openpi) (~3.6B) on Jetson AGX Orin: **92 ms** inference latency and **92.2%** LIBERO-10 closed-loop success rate, nearly matching the official baseline (*92.4%*) without quality degradation. The latency comes from an outlier-aware INT8 weight-only path (channel-split outlier handling, fused CUDA kernels, CUDA-Graph 1-step denoising) running on the open-source FlashRT engine, and every number is backed by **full 500-episode** records in this repo.
 
 **Status: Active** - maintained as a research release. Results were last verified on Jetson AGX Orin 64GB (L4T 36.5.0, CUDA 12.6, torch 2.8.0+cu126, python 3.10.12) and on an RTX 4090 Laptop (Ubuntu 22.04, CUDA 12.8, torch 2.8.0+cu128, python 3.10.12); issues and PRs are welcome.
 
