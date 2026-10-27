@@ -1,30 +1,36 @@
 # pi05-orin-edge: pi0.5 VLA on Jetson AGX Orin at 92 ms
 
-Edge deployment of [**pi0.5**](https://github.com/Physical-Intelligence/openpi) (~3.6B) on Jetson AGX Orin: **92 ms** inference latency and **92.2%** LIBERO-10 closed-loop success rate, nearly matching the official baseline (*92.4%*) without quality degradation. The latency comes from an outlier-aware INT8 weight-only path (channel-split outlier handling, fused CUDA kernels, CUDA-Graph 1-step denoising) running on the open-source FlashRT engine, and every number is backed by **full 500-episode** records in this repo.
+Edge deployment of [**pi0.5**](https://github.com/Physical-Intelligence/openpi) (~3.6B) on Jetson AGX Orin: **92 ms** inference latency and **92.2%** LIBERO-10 closed-loop success rate, nearly matching the official baseline (*92.4%*) without quality degradation. 
 
 **Status: Active** - maintained as a research release. Results were last verified on Jetson AGX Orin 64GB (L4T 36.5.0, CUDA 12.6, torch 2.8.0+cu126, python 3.10.12) and on an RTX 4090 Laptop (Ubuntu 22.04, CUDA 12.8, torch 2.8.0+cu128, python 3.10.12); issues and PRs are welcome.
 
+<p align="center">
+  <img src="assets/overview.png" width="900">
+</p>
+<p align="center">
+  <i><font size="3">Client on a 4090 laptop, GU-Mix + GEG8 engine on Jetson AGX Orin</font></i>
+</p>
+
+**How it fits together**: LIBERO and the openpi-protocol client run on an x86 host (a 4090 laptop in our runs), the model server on Orin over the Jetson USB link — the server wraps the [FlashRT](https://github.com/flashrt-project/FlashRT) engine, with the overlay swapping in the INT8-mixed GEMM path, the fused gate/up+GEGLU epilogue kernel, and fast-quant plumbing.
+
 ## Demo
 
-6 closed-loop episodes of the shipped recipe on the two-machine topology in LIBERO-10 simulation MujoCo:
+<p align="center">
+  <img src="assets/demos/poster_grid.png" width="800">
+</p>
 
-![contact sheet of the six demo clips](assets/demos/poster_grid.png)
-*One frame from the last third of each clip, with the outcome and that episode's step and policy-call count read from the committed records. Frames are the 512x512 agentview the policy consumes at 224x224, from LIBERO-10 simulation (MuJoCo) - not real hardware. The clips below are the same episodes in motion; this sheet is the in-repo copy, so the section still reads where the video attachments are not reachable.*
+6 closed-loop episodes of the shipped recipe on the two-machine topology in LIBERO-10 simulation MuJoCo.
 
 | | | |
 |:---:|:---:|:---:|
 | <video src="https://github.com/user-attachments/assets/a8906f29-b3e4-4a30-9284-4d69bb4bb2a7" controls muted></video> <br> **task 0 ✅** - alphabet soup + tomato sauce into basket| <video src="https://github.com/user-attachments/assets/fc97d46e-22f2-469c-9e15-d356fe790999" controls muted></video> <br> **task 3 ✅** - black bowl into drawer + close | <video src="https://github.com/user-attachments/assets/ebcaebf9-d7f1-4b15-ad9c-241011b160e6" controls muted></video> <br> **task 4 ✅** - two mugs onto their plates|
 | <video src="https://github.com/user-attachments/assets/f365ec43-a502-4d47-85af-85f8c43b5439" controls muted></video> <br> **task 5 ✅** - book into the caddy's back compartment| <video src="https://github.com/user-attachments/assets/11b5ffd2-d971-43b1-b4cf-3c9393cfb2a5" controls muted></video> <br> **task 9 ✅** - mug into microwave + close it| <video src="https://github.com/user-attachments/assets/dc19b048-961e-4565-abcb-6eccbdaff8de" controls muted></video> <br> **task 2 ❌** - stove + moka pot, *step-limit timeout*|
 
-Each clip pairs the 512x512 agentview render with a live panel whose numbers are read from the committed records at compose time - outcome, steps, policy calls, per-episode client round-trip mean, and the 500-episode model-caliber stats. The policy consumes its usual 224x224 downsample of the same camera, and the re-record's own server-side stats (p50 93.76 ms over 577 calls) sit on the committed 500-episode anchor band (p50 93.30 ms over 26,650 calls). The last clip is a real failure: task 2's step-limit timeout, the failure mode behind its 38/50 = 76% rate in the primary 500-episode arm. Per-task JSONs: [benchmark/results/demo_512_rerecord/](benchmark/results/demo_512_rerecord/); masters ship as v1.0 release assets.
-
-**How it fits together**: *a two-machine topology* - the LIBERO simulator and the openpi-protocol client run on an x86 host (a 4090 laptop in our runs), the model server runs on Orin over the Jetson USB link. The server wraps the [FlashRT](https://github.com/flashrt-project/FlashRT) engine (PaliGemma VLM: SigLIP vision tower + Gemma LM, plus the action expert under single-step flow-matching denoise captured in a CUDA Graph); the overlay swaps in the INT8-mixed GEMM path, the fused gate/up+GEGLU epilogue kernel, and the fast-quant plumbing inside that engine.
-
-![two-machine deployment topology: client on a 4090 laptop, GU-Mix + GEG8 engine on Jetson AGX Orin](assets/overview.png)
+Each clip's live panel (outcome, steps, policy calls, client round-trip) is read from the committed records; the task 2 clip is the real failure mode — *step-limit timeout*, which accounts for its 38/50 = 76% task rate in the 500-episode arm. Per-task JSONs: [benchmark/results/demo_512_rerecord/](benchmark/results/demo_512_rerecord/); clip masters ship as v1.0 release assets.
 
 ## Results
 
-> LIBERO-10, 500 episodes(10 tasks x 50), seed 7, replan 5, H=10 chunk, [results data](benchmark/results/README.md).
+*LIBERO-10, 500 episodes (10 tasks x 50), seed 7, replan 5, H=10 chunk, [results data](benchmark/results/README.md).*
 
 | Config | Device | Model Infer p50 | Client p50 | LIBERO-10 500ep |
 |---|---|---|---|---|
@@ -36,43 +42,38 @@ Each clip pairs the 512x512 agentview render with a live panel whose numbers are
 | [APXInf](https://github.com/RLinf/APXinf-robo) | Jetson AGX Orin | 147.15 ms \* | - | 92.0% |
 | openpi reference | - | - | - | 92.4% |
 
-\* APXInf latency is our own reproduction on the same Orin through APXInf-robo's own LIBERO-10 eval harness (in-process, BF16, warm-start one-step, seed 7): 147.15 ms per-call model_ms. Their README reports the Orin one-step number at a different caliber (119.05 ms, CUDA-graph replay P50). The 92.0% is their published 500-episode success rate (460/500); our 100-episode run of their harness matched it at 92/100.
+> \* Our reproduction via APXInf-robo's own LIBERO-10 harness (in-process, BF16, warm-start one-step, seed 7); their README reports 119.05 ms at a different caliber (CUDA-graph replay P50). 92.0% = their published 460/500, matched by our 92/100 rerun.
 
 ![model p50 and client p50 of the same 500-episode run, as one stacked bar](assets/benchmarks/latency_calibers.png)
-*Why the table has two latency columns: the 92.4 ms model p50 is the first segment of the 113-150 ms client p50, not a second claim about it. The 21-58 ms on top is the Jetson USB transport plus client glue, and its per-task spread is why the column is a range. Never compare numbers across rows of different calibers - the calipers are defined in [docs/recipe.md](docs/recipe.md).*
+*Model p50 is the first segment of client p50 - the gap is USB transport + client glue.*
 
-**[GU-Mix + GEG8](configs/gumix_geg8.env)** is the shipped recipe: GU-Mix runs the gate/up projections of every Gemma FFN block as K16 channel-split INT8 weights (outlier-heavy channels keep BF16); GEG8 fuses the two projections plus their GEGLU activation (gelu(gate)·up) into a single CUDA kernel. The GU-Mix row runs the same 8-bit mix through separate GEMMs + activation, and the BF16 row disables the 8-bit mix entirely.
+### Recipe and ablations
 
-The GU-Mix + GEG8 and GU-Mix rows sit within binomial noise of each other (±2.3 pp at N=500), the fused kernel buys -3.2 ms at a noise-level quality delta.
+**[GU-Mix + GEG8](configs/gumix_geg8.env)** (shipped recipe): gate/up projections as K16 channel-split INT8 (outlier-heavy channels keep BF16), fused with GEGLU into one CUDA kernel. GU-Mix = same mix, separate GEMMs; BF16 = no quantization.
 
-The two RTX 4090 Laptop rows rerun the same protocol with the device as the only variable: both stay within binomial noise of Orin, and on x86 the workload is compute/attention-bound, so the INT8 recipe and FP8 land at the same model p50 (~25 ms, 3.7x Orin) - see [platforms/x86/README.md](platforms/x86/README.md) for the control-variable design, fingerprints, and the full-percentile latency records.
+- Fused kernel: -3.2 ms at a noise-level quality delta (±2.3 pp at N=500).
+- 4090 Laptop rows = device-only control; INT8 and FP8 land at the same ~25 ms model p50 (compute-bound) - design and full records in [platforms/x86/README.md](platforms/x86/README.md).
 
 ![LIBERO-10 success vs. model inference latency, one point per arm](assets/benchmarks/tradeoff.png)
-*The table as a picture: a 6x spread in latency (25-147 ms) buys or costs at most 3.4 pp of LIBERO-10 success, and every pair of arms has overlapping Wilson 95% CIs - latency is the axis these arms actually separate on. BF16 is omitted because no model-caliber p50 was recorded for it; the APXInf point is our reproduction, at their harness's caliber.*
+*A 6x latency spread (25-147 ms) moves success at most 3.4 pp, with overlapping Wilson 95% CIs - latency is the axis the arms separate on. (BF16 omitted: no model-caliber p50; APXInf = our reproduction.)*
 
-The shipped Orin recipe also holds a full-percentile record from a dedicated 500-episode rerun: p50 93.30 / p95 93.80 / p99 93.94 / max 125.1 ms, jitter (p95−p50) 0.50 ms across 26,650 policy calls on locked clocks - the tail is essentially flat, and the rerun doubles as a second accuracy anchor (462/500 = 92.4%), archived in [benchmark/results/orin_gumix_geg8_stats_500ep/](benchmark/results/orin_gumix_geg8_stats_500ep/).
+### Latency profile
+
+Shipped-recipe rerun (500 ep, 26,650 calls, locked clocks): p50 93.30 / p95 93.80 / p99 93.94 / max 125.1 ms, jitter 0.50 ms - flat tail, and a second, independent accuracy anchor (462/500 = 92.4%). Data: [benchmark/results/orin_gumix_geg8_stats_500ep/](benchmark/results/orin_gumix_geg8_stats_500ep/).
 
 ![per-call latency timeline + histogram of the tagged stats rerun](assets/benchmarks/latency_timeline.png)
-*Latency record of the tagged stats rerun: 26,650 server-side policy calls from the 500-episode LIBERO-10 closed-loop run on Jetson AGX Orin (GU-Mix + GEG8, locked clocks, October 2026). Top: every call in run order, so drift or thermal throttling would show up as a trend. Bottom: the same calls as a distribution - 99% land within 0.64 ms of p50, and the remaining 1% are isolated spikes (1-5 calls each) reaching 125 ms.*
+*Top: every call in run order (drift/throttling would show as a trend). Bottom: 99% of calls within 0.64 ms of p50; the 1% tail is isolated spikes to 125 ms.*
+
+### Per-task breakdown
 
 ![per-task success counts across the six 500-episode arms](assets/benchmarks/task_success.png)
-*Per-task success counts for the six committed 500-episode arms (right column: the arm's total). Config-level drift stays within binomial noise except on cliff tasks (task2 / task8) that shift per config - the reason every acceptance decision in this repo is made at the 500-episode caliber.*
-
-## What we changed on top of FlashRT
-
-[FlashRT@f2f04db](https://github.com/flashrt-project/FlashRT/tree/f2f04db) is the upstream engine this work builds on; see [NOTICE](NOTICE) and Acknowledgements. 
-On top of the overlay is 19 files (4 new + 15 modified, listed in [flashrt_overlay/README.md](flashrt_overlay/README.md)):
-
-- **GU_MIX K16 channel-split INT8**: per-layer 16-channel INT8 gate/up side weights with the BF16 side kept for outlier channels, replacing the naive full-INT8 gate/up that collapsed long-horizon tasks (task8 −48pp / task9 −73pp).
-- **GEG8 fused gate/up + GEGLU epilogue** (new CUDA kernel): bit-exact vs the unfused path at three gate levels; -3.2 ms.
-- **FAST_QUANT** quantize plumbing (bit-exact, -5.6 ms) + vectorized elementwise + masked-norm + vectorized QKV split.
-- **st8 fix**: pass the raw 8-dim normalized state conditioning instead of the 32-pad convention (a v044-era artifact that silently cost accuracy with official weights).
-- Production server: warm-start noise shifter, memoized set_prompt, and removal of a duplicated prep block (byte-identical fix, removes a double prompt-embeds upload per request).
+*Config drift stays within binomial noise except cliff tasks (task2 / task8) - the reason acceptance decisions are made at the 500-episode caliber.*
 
 ## Get started
 
 ![the four Get started steps across the two machines](assets/pipeline.png)
-*The same four steps as the block below, split by machine: weights and the overlay cross to the Orin once, then every policy call crosses back over the USB link.*
+
+The four steps as the figure above, split by machine: weights and the overlay cross to the Orin once, then every policy call crosses back over the USB link.
 
 ```bash
 # 0. one-time setup (docs/environment.md, docs/pipeline_guide.md)
@@ -101,25 +102,18 @@ PYTHONPATH=<openpi>/third_party/libero python benchmark/libero_eval_multitask.py
   --host <orin-ip> --port 8020    # <orin-ip> = 192.168.55.1 on the stock Jetson USB link
 ```
 
-[run_pipeline.sh](run_pipeline.sh) chains steps 1-3 with fail-fast guards (downloads, conversion, sync).
+[run_pipeline.sh](run_pipeline.sh) chains steps 1-3 with fail-fast guards (downloads, conversion, sync); [ckpts/README.md](ckpts/README.md) lists the upstream sources + sha256.
 
-## Repo map
+## What we changed on top of FlashRT
 
-| Path | What it is |
-|---|---|
-| [flashrt_overlay/](flashrt_overlay/) | our 19-file overlay over FlashRT @ f2f04db8 + apply script |
-| [export/tools/convert_official_weights.py](export/tools/convert_official_weights.py) | fp32->bf16 bundle converter (byte-exact verified) |
-| [runtime/server_flashrt_official_ws.py](runtime/server_flashrt_official_ws.py) | production server (ws / uds / shm transports) |
-| [benchmark/](benchmark/) | closed-loop eval (task0 + multitask), parity gate, transport bench |
-| [benchmark/results/](benchmark/results/) | full 500-episode records for the six arms (4 Orin + 2 x86) |
-| [platforms/x86/](platforms/x86/README.md) | RTX 4090L control-variable campaign (INT8 recipe + FP8) + stats wrapper |
-| [platforms/arm64/](platforms/arm64/README.md) | Orin production launcher with latency instrumentation |
-| [configs/gumix_geg8.env](configs/gumix_geg8.env) | the 13-env production recipe |
-| [environment/](environment/) | version locks + offline wheelhouse + download scripts |
-| [tools/](tools/) | K16 mix-set generator + outlier probe |
-| [ckpts/](ckpts/) [data/](data/) | upstream artifacts: link-only policy + download table |
-| [docs/](docs/) | environment, pipeline, recipe semantics, quantization journey, lessons |
-| [scripts/](scripts/) | tree sync to the Orin host ([scripts/sync_to_orin.sh](scripts/sync_to_orin.sh)) |
+[FlashRT@f2f04db](https://github.com/flashrt-project/FlashRT/tree/f2f04db) is the upstream engine this work builds on; see [NOTICE](NOTICE) and Acknowledgements.
+The overlay is 19 files (4 new + 15 modified, listed in [flashrt_overlay/README.md](flashrt_overlay/README.md)):
+
+- **GU_MIX K16 channel-split INT8**: the channel-split mechanism behind the GU-Mix rows (Results above); replaces the naive full-INT8 gate/up that collapsed long-horizon tasks (task8 −48pp / task9 −73pp).
+- **GEG8 fused gate/up + GEGLU epilogue** (new CUDA kernel): bit-exact vs the unfused path at three gate levels.
+- **FAST_QUANT** quantize plumbing (bit-exact, -5.6 ms) + vectorized elementwise + masked-norm + vectorized QKV split.
+- **st8 fix**: pass the raw 8-dim normalized state conditioning instead of the 32-pad convention (a v044-era artifact that silently cost accuracy with official weights).
+- Production server: warm-start noise shifter, memoized set_prompt, and removal of a duplicated prep block (byte-identical fix, removes a double prompt-embeds upload per request).
 
 ## Scope and limitations
 
