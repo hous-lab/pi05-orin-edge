@@ -30,13 +30,17 @@ benchmark/results/*.mp4
 !benchmark/results/**/*.json
 
 # demo clips: released as v1.0 release assets + README user-attachments, never in git
-assets/demos/
+# (glob the contents, not the directory, so the contact sheet below can be re-included)
+assets/demos/*
+# ...but the contact sheet is small, and it is the in-repo fallback for those clips
+!assets/demos/poster_grid.png
 
 # local config: per-machine paths
 *.local.env
 
 # OMC/session state
 .omc/
+.workbuddy-ai/
 
 # superseded local-only scripts (kept on disk, not part of the release)
 environment/download_checkpoint_gcs.sh
