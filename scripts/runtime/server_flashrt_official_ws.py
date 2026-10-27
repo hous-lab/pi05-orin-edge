@@ -11,7 +11,7 @@ and returns {"actions": (10, 7) fp32}.
 Transport (--transport, default ws):
   ws   : websocket (default; the protocol the openpi client expects)
   uds  : Unix domain socket, 4-byte LE length prefix + msgpack (same-machine recommended)
-  shm  : /dev/shm mmap slot + FIFO signaling (uses runtime/transport_bench/transport_common.py)
+  shm  : /dev/shm mmap slot + FIFO signaling (uses scripts/runtime/transport_bench/transport_common.py)
 Stub mode (--echo): serves zero actions without loading the model - transport benchmarks only.
 """
 import argparse

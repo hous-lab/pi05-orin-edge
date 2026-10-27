@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # fp32 source weights: lerobot/pi05_libero_base model.safetensors (14.47 GB, F32).
-# This is the INPUT to export/tools/convert_official_weights.py, not the deploy bundle.
+# This is the INPUT to scripts/export/convert_official_weights.py, not the deploy bundle.
 # Tries the official endpoint first, then the hf-mirror endpoint (CN networks).
 set -euo pipefail
 DEST=${1:-${PI05_CKPT_SRC:-./ckpts/pi05_libero_base}}

@@ -1,7 +1,7 @@
 # platforms/arm64 - Jetson AGX Orin 64GB (SM87)
 
 Production platform this repo targets. The serve/eval pipeline lives at the
-repo root (runtime/, benchmark/, configs/); this folder holds the Orin-specific
+repo root (scripts/runtime/, benchmark/, configs/); this folder holds the Orin-specific
 launcher with passive latency instrumentation and the stats-rerun record.
 
 ## Files
@@ -18,7 +18,7 @@ launcher with passive latency instrumentation and the stats-rerun record.
 ```bash
 FLASHRT_ROOT=<FlashRT sm_87 tree> \
 PI05_CKPT_DIR=<bf16 bundle> \
-PI05_MIX_SETS=<tools/mix_sets_k16.npz> \
+PI05_MIX_SETS=<scripts/quant/mix_sets_k16.npz> \
 STATS_OUT=<persistent path>/stats_server.json \
 platforms/arm64/launch_server.sh 8020
 ```

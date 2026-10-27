@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Orin offline venv: system torch stack visible + python-only deps from wheelhouse.
-# Run on Orin from anywhere: bash environment/setup_orin_venv.sh
+# Run on Orin from anywhere: bash scripts/setup/setup_orin_venv.sh
 # The runtime stack is FlashRT + our overlay; the openpi repo is NOT needed on Orin
 # (it is only required on x86 for the parity reference, see docs/pipeline_guide.md).
 set -euo pipefail
-PROJ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PROJ="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$PROJ"
 
 # 1) venv: python3.10 + system site-packages (torch 2.8.0+cu126 comes from the

@@ -16,11 +16,11 @@ SKIP_CONVERT=${SKIP_CONVERT:-0}
 # ---- 1. guard
 MISSING=""
 [ -f "$CKPT_SRC/model.safetensors" ] || MISSING="$MISSING
-  - fp32 source weights: $CKPT_SRC/model.safetensors (bash environment/download_lerobot_base.sh)"
+  - fp32 source weights: $CKPT_SRC/model.safetensors (bash scripts/setup/download_lerobot_base.sh)"
 [ -f "$CKPT_DIR/norm_stats.json" ] || MISSING="$MISSING
-  - norm_stats.json: $CKPT_DIR/norm_stats.json (bash environment/download_norm_stats.sh)"
+  - norm_stats.json: $CKPT_DIR/norm_stats.json (bash scripts/setup/download_norm_stats.sh)"
 [ -f "$CKPT_DIR/assets/tokenizer/tokenizer.model" ] || MISSING="$MISSING
-  - tokenizer: $CKPT_DIR/assets/tokenizer/tokenizer.model (bash environment/download_paligemma_tokenizer.sh)"
+  - tokenizer: $CKPT_DIR/assets/tokenizer/tokenizer.model (bash scripts/setup/download_paligemma_tokenizer.sh)"
 if [ -n "$MISSING" ]; then
   echo "Missing upstream inputs:" >&2
   echo "$MISSING" >&2
@@ -34,14 +34,14 @@ if [ "$SKIP_CONVERT" = 1 ] || [ -f "$CKPT_DIR/model.safetensors" ]; then
 else
   echo "[2/5] converting fp32 -> bf16 bundle (several minutes, streams 14.5 GB)"
   mkdir -p "$CKPT_DIR"
-  python3 export/tools/convert_official_weights.py \
+  python3 scripts/export/convert_official_weights.py \
     --src "$CKPT_SRC/model.safetensors" --out "$CKPT_DIR/model.safetensors"
 fi
 echo "[3/5] bundle ready: $CKPT_DIR"
 
 # ---- 3. sync to Orin
 if [ -n "${ORIN_SSH_TARGET:-}" ]; then
-  bash scripts/sync_to_orin.sh "$ORIN_SSH_TARGET"
+  bash scripts/ops/sync_to_orin.sh "$ORIN_SSH_TARGET"
   echo "[4/5] synced; weights are NOT synced by default - copy $CKPT_DIR manually (8.3 GB)"
 else
   echo "[4/5] ORIN_SSH_TARGET not set - skip sync"
@@ -50,7 +50,7 @@ fi
 # ---- 4/5. serve + eval (two machines, so these stay explicit)
 cat <<EOF
 Next steps (see docs/pipeline_guide.md for full commands):
-  Orin: source configs/gumix_geg8.env && python runtime/server_flashrt_official_ws.py \
+  Orin: source configs/gumix_geg8.env && python scripts/runtime/server_flashrt_official_ws.py \
         --views 2 --pool 1 --layers 27 --steps 1 --port 8020
   x86:  PYTHONPATH=<openpi>/third_party/libero python benchmark/libero_eval_multitask.py \
         --host <orin-ip> --port 8020

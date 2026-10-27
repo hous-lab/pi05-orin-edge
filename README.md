@@ -80,10 +80,10 @@ The four steps as the figure above, split by machine: weights and the overlay cr
 #    x86 host: LIBERO sim + eval venv; Orin: venv + FlashRT + overlay + build
 
 # 1. download + convert weights (x86)
-bash environment/download_lerobot_base.sh
-bash environment/download_norm_stats.sh
-bash environment/download_paligemma_tokenizer.sh
-python3 export/tools/convert_official_weights.py \
+bash scripts/setup/download_lerobot_base.sh
+bash scripts/setup/download_norm_stats.sh
+bash scripts/setup/download_paligemma_tokenizer.sh
+python3 scripts/export/convert_official_weights.py \
   --src ckpts/pi05_libero_base/model.safetensors \
   --out ckpts/pi05_libero_official/model.safetensors
 
@@ -93,7 +93,7 @@ bash flashrt_overlay/apply_overlay.sh
 
 # 3. serve on Orin
 source configs/gumix_geg8.env
-python runtime/server_flashrt_official_ws.py --views 2 --pool 1 --layers 27 --steps 1 --port 8020
+python scripts/runtime/server_flashrt_official_ws.py --views 2 --pool 1 --layers 27 --steps 1 --port 8020
 
 # 4. closed-loop eval (dual-machine: x86 runs the LIBERO simulator + policy client,
 #    Orin runs the model server from step 3; the client talks to the server over the

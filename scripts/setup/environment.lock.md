@@ -12,10 +12,10 @@
 | sentencepiece / tokenizers | 0.2.2 / 0.21.4 | wheelhouse |
 | numpy | 1.26.4 | wheelhouse |
 | openpi-client / websockets / msgpack / tyro | current | wheelhouse |
-| FlashRT | upstream @ f2f04db8 + overlay | git clone + [flashrt_overlay/](../flashrt_overlay/) |
-| CUTLASS | v4.4.2 | git clone ([flashrt_overlay/apply_overlay.sh](../flashrt_overlay/apply_overlay.sh) does it) |
+| FlashRT | upstream @ f2f04db8 + overlay | git clone + [flashrt_overlay/](../../flashrt_overlay/) |
+| CUTLASS | v4.4.2 | git clone ([flashrt_overlay/apply_overlay.sh](../../flashrt_overlay/apply_overlay.sh) does it) |
 
 ## Conventions
-- venv with `--system-site-packages` so the NVIDIA torch stack stays primary; pip installs only python-only wheels from the wheelhouse built by [environment/make_orin_wheelhouse.sh](make_orin_wheelhouse.sh).
-- FlashRT builds against the system torch; the kernels .so lands inside the FlashRT tree (see [flashrt_overlay/README.md](../flashrt_overlay/README.md) for the build commands).
+- venv with `--system-site-packages` so the NVIDIA torch stack stays primary; pip installs only python-only wheels from the wheelhouse built by [scripts/setup/make_orin_wheelhouse.sh](make_orin_wheelhouse.sh).
+- FlashRT builds against the system torch; the kernels .so lands inside the FlashRT tree (see [flashrt_overlay/README.md](../../flashrt_overlay/README.md) for the build commands).
 - Everything installs offline on Orin: build the wheelhouse on x86 and copy it over (Orin has no external network in our setup).

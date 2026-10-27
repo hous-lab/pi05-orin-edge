@@ -38,5 +38,5 @@ setup running FlashRT + custom kernels.
 | 8 | Server ran a different config than measured | env setdefault traps | explicit env in recipes; fingerprint lines as launch proof |
 | 9 | CUDA graph replay garbage with >=3 engines co-resident | multi-engine graph capture state | single-engine chains; hard reject at chain level |
 | 10 | fp16 buffer downloaded as float16 = misread bits | BF16 buffer read via np.float16 | uint16 shift conversion in every comparison tool |
-| 11 | "Missing" embed_tokens on load | tied lm_head alias in safetensors metadata | bundle materializes embed_tokens (see [export/tools/](../export/tools/)) |
+| 11 | "Missing" embed_tokens on load | tied lm_head alias in safetensors metadata | bundle materializes embed_tokens (see [scripts/export/](../scripts/export/)) |
 | 12 | make silently skipped recompiles after reboot | clock skew: future mtimes on .o | delete stale .o / touch before rebuild; check for skew warnings |

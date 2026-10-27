@@ -31,7 +31,7 @@ The FlashRT sm_89 tree uses the same overlay ([flashrt_overlay/](../../flashrt_o
 ```bash
 # server (config b), then eval against it
 FLASHRT_ROOT=<FlashRT sm_89 tree> PI05_CKPT_DIR=<bf16 bundle> \
-PI05_MIX_SETS=<tools/mix_sets_k16.npz> platforms/x86/launch_server.sh b 8021
+PI05_MIX_SETS=<scripts/quant/mix_sets_k16.npz> platforms/x86/launch_server.sh b 8021
 LIBERO_PATH=<openpi>/third_party/libero \
 PI05_PY_EVAL=<python with imageio/tyro/libero/openpi_client> \
 platforms/x86/run_eval.sh <outdir> 127.0.0.1 8021 50

@@ -15,7 +15,7 @@ HERE=$(cd "$(dirname "$0")" && pwd)
 REPO=$(cd "$HERE/../.." && pwd)
 : "${FLASHRT_ROOT:?set FLASHRT_ROOT}"
 : "${PI05_CKPT_DIR:?set PI05_CKPT_DIR}"
-: "${PI05_MIX_SETS:?set PI05_MIX_SETS (tools/mix_sets_k16.npz)}"
+: "${PI05_MIX_SETS:?set PI05_MIX_SETS (scripts/quant/mix_sets_k16.npz)}"
 export PI05_MIX_SETS
 # shellcheck disable=SC1091
 source "$REPO/configs/gumix_geg8.env"

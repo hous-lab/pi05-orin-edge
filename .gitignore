@@ -43,7 +43,4 @@ assets/demos/*
 .workbuddy-ai/
 
 # superseded local-only scripts (kept on disk, not part of the release)
-environment/download_checkpoint_gcs.sh
-environment/download_checkpoint_gcs_v2.sh
-environment/download_lerobot_modelscope.sh
-environment/setup_orin_jax
+/environment/

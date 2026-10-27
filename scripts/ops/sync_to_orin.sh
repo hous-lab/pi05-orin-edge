@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # rsync the repo to the Orin box (code only; weights/data/wheelhouse are copied separately).
-# Usage: bash scripts/sync_to_orin.sh [user@host] [dest]
+# Usage: bash scripts/ops/sync_to_orin.sh [user@host] [dest]
 set -euo pipefail
 TARGET=${1:-${ORIN_SSH_TARGET:-orin}}
 DEST=${2:-pi05-orin-edge}

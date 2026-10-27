@@ -16,7 +16,7 @@ Measurement metadata (applies to every arm below):
 |---|---|
 | Devices | two-machine topology: x86 eval host runs the LIBERO-10 simulator + openpi-protocol client; Jetson AGX Orin 64GB runs the model server over the stock Jetson USB link (192.168.55.1) |
 | Power and clocks | Orin locked to MAXN + jetson_clocks before every measured run; the x86 host was not clock-locked |
-| Stack versions | Orin: L4T 36.5.0, CUDA 12.6, torch 2.8.0+cu126; x86: CUDA 12.8, torch 2.8.0+cu128, python 3.10.12 ([environment/environment.lock.md](../../environment/environment.lock.md)) |
+| Stack versions | Orin: L4T 36.5.0, CUDA 12.6, torch 2.8.0+cu126; x86: CUDA 12.8, torch 2.8.0+cu128, python 3.10.12 ([scripts/setup/environment.lock.md](../../scripts/setup/environment.lock.md)) |
 | Protocol | LIBERO-10, 10 tasks × 50 episodes per arm, seed 7, replan every 5 actions, H=10 action chunk, 180° image flip, quat→axis-angle |
 | Sample counts | accuracy: 500 episodes per arm; latency: the two 4090L arms and the Orin rerun record one server-side sample per policy call (~27-29k samples per arm) over the full closed loop; the Orin anchor arms report model p50 from server-side phase timing across the run |
 | Latency calibers | model p50 = server-side `pipe_infer` phase median; client p50 = model + server glue + transport round-trip; defined in [docs/recipe.md](../../docs/recipe.md), never mixed inside one number |

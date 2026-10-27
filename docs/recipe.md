@@ -11,7 +11,7 @@ before launching the server; the startup fingerprint is the proof it took effect
 | FVK_PI05_RTX_ENC8_ATTN | 1 | encoder ATTN (qkv+o) INT8, 36 GEMMs |
 | FVK_PI05_RTX_ENC8_MLP | 1 | enables the encoder MLP path (required for the mix below) |
 | FVK_PI05_RTX_ENC8_MIX | 1 | K16 channel-split mix on gate/up: keep the K=16 largest-outlier channels in BF16 |
-| FVK_PI05_RTX_ENC8_MIX_FILE | ${PI05_MIX_SETS} | the K16 channel sets ([tools/mix_sets_k16.npz](../tools/mix_sets_k16.npz)) |
+| FVK_PI05_RTX_ENC8_MIX_FILE | ${PI05_MIX_SETS} | the K16 channel sets ([scripts/quant/mix_sets_k16.npz](../scripts/quant/mix_sets_k16.npz)) |
 | FVK_PI05_RTX_ENC8_MIX_GEG8 | 1 | fused gate/up+GEGLU epilogue kernel on the mix path |
 | FVK_PI05_RTX_ENC8_DOWN | 1 | encoder DOWN GEMMs INT8 (18 GEMMs) |
 | FLASHRT_PI05_INT8_FAST_QUANT | 1 | bit-exact fast quantize plumbing (-5.6 ms) |
@@ -28,7 +28,7 @@ before launching the server; the startup fingerprint is the proof it took effect
    it explicitly to 0, not just unset it.
 2. **WS_ALPHA default 0.8 vs recipe 0.5**: the script default (0.8) is NOT the production value.
    The recipe file sets 0.5 - the value behind the 500-episode anchors. The server prints the
-   effective value at startup in a loud comment (see [runtime/server_flashrt_official_ws.py](../runtime/server_flashrt_official_ws.py)).
+   effective value at startup in a loud comment (see [scripts/runtime/server_flashrt_official_ws.py](../scripts/runtime/server_flashrt_official_ws.py)).
 
 ## Latency calibers (do not mix them)
 

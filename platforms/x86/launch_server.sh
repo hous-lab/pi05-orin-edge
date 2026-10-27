@@ -19,7 +19,7 @@ REPO=$(cd "$HERE/../.." && pwd)
 : "${PI05_CKPT_DIR:?set PI05_CKPT_DIR}"
 
 if [ "$CFG" = "b" ]; then
-  : "${PI05_MIX_SETS:?config b needs PI05_MIX_SETS (tools/mix_sets_k16.npz)}"
+  : "${PI05_MIX_SETS:?config b needs PI05_MIX_SETS (scripts/quant/mix_sets_k16.npz)}"
   export PI05_MIX_SETS
   # shellcheck disable=SC1091
   source "$REPO/configs/gumix_geg8.env"

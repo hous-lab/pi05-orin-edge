@@ -5,12 +5,12 @@ x86 column run on the eval host; serve runs on Orin. Every stage has a verifiabl
 
 | Stage | Where | Command | Checkpoint |
 |---|---|---|---|
-| 1. weights | x86 | `bash environment/download_lerobot_base.sh` (14.5 GB) | sha256 21b87117... printed OK |
-| 2. assets | x86 | `bash environment/download_norm_stats.sh` + `download_paligemma_tokenizer.sh` | hashes print OK |
-| 3. convert | x86 | `python3 export/tools/convert_official_weights.py --src ... --out ...` | 813 tensors BF16, 8,286,945,016 B, sha256 41cb8647... |
+| 1. weights | x86 | `bash scripts/setup/download_lerobot_base.sh` (14.5 GB) | sha256 21b87117... printed OK |
+| 2. assets | x86 | `bash scripts/setup/download_norm_stats.sh` + `download_paligemma_tokenizer.sh` | hashes print OK |
+| 3. convert | x86 | `python3 scripts/export/convert_official_weights.py --src ... --out ...` | 813 tensors BF16, 8,286,945,016 B, sha256 41cb8647... |
 | 4. overlay+build | Orin | `bash flashrt_overlay/apply_overlay.sh` then cmake/make (below) | fingerprint lines at server start |
-| 5. sync | x86 | `bash scripts/sync_to_orin.sh <user@host>` | rsync output |
-| 6. serve | Orin | `source configs/gumix_geg8.env && python runtime/server_flashrt_official_ws.py --views 2 --pool 1 --layers 27 --steps 1 --port 8020` | 6 fingerprint lines + serving |
+| 5. sync | x86 | `bash scripts/ops/sync_to_orin.sh <user@host>` | rsync output |
+| 6. serve | Orin | `source configs/gumix_geg8.env && python scripts/runtime/server_flashrt_official_ws.py --views 2 --pool 1 --layers 27 --steps 1 --port 8020` | 6 fingerprint lines + serving |
 | 7. eval | x86 | `PYTHONPATH=<openpi>/third_party/libero python benchmark/libero_eval_multitask.py --host <orin> --port 8020` | 10 task JSONs, 500 eps |
 
 ## Convert (stage 3)

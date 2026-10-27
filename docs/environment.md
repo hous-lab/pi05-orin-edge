@@ -11,7 +11,7 @@ Two machines, deliberately kept as simple as possible:
 
 - torch comes from the NVIDIA JetPack stack (2.8.0+cu126). Do not pip-install torch on Orin.
 - Everything else installs offline from a wheelhouse: build it on x86 with
-  [environment/make_orin_wheelhouse.sh](../environment/make_orin_wheelhouse.sh), copy it over, then run [environment/setup_orin_venv.sh](../environment/setup_orin_venv.sh) on Orin.
+  [scripts/setup/make_orin_wheelhouse.sh](../scripts/setup/make_orin_wheelhouse.sh), copy it over, then run [scripts/setup/setup_orin_venv.sh](../scripts/setup/setup_orin_venv.sh) on Orin.
 - FlashRT is cloned at the pinned rev by [flashrt_overlay/apply_overlay.sh](../flashrt_overlay/apply_overlay.sh); CUTLASS v4.4.2 is
   cloned into `third_party/cutlass` for the INT8 GEMM path (sm87 gets it automatically).
 - cuDNN 9.3.0 system; TensorRT present (trtexec 10.3) but NOT used by this stack - the runtime
