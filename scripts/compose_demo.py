@@ -24,10 +24,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from matplotlib.font_manager import FontProperties, findfont
 
-W, H = 768, 480            # both multiples of 16 (yuv420p-safe)
-VID = 448                  # left pane: 224x224 upscaled 2x, nearest
-PANEL_X = 448
-BANNER_Y = 448
+PANEL_W, BANNER_H = 448, 48   # right panel / bottom banner (16-multiples kept)
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--video", required=True, help="raw per-episode mp4 (224x224 policy frames)")
@@ -116,16 +113,21 @@ def banner(draw):
     draw.text((14, BANNER_Y + 9),
               "pi0.5 (~3.6B) on Jetson AGX Orin - simulation, not real hardware",
               font=font_s, fill=(200, 200, 210))
-    right = "frames = the 224x224 agentview policy input"
-    draw.text((W - 14 - int(font_s.getlength(right)), BANNER_Y + 9), right,
+    right = ("frames = the 224x224 agentview policy input" if VID == 224 else
+             f"frames = the {VID}x{VID} agentview render - policy consumes its 224x224 downsample")
+    draw.text((W - 14 - int(font_s.getlength(right)), BANNER_Y + 27), right,
               font=font_s, fill=(140, 140, 150))
 
 c_in = av.open(a.video)
 vstream = next(s for s in c_in.streams if s.type == "video")
+VID = vstream.width
+assert vstream.width == vstream.height, "expected square agentview frames"
 nframes = vstream.frames or sum(1 for _ in c_in.decode(video=0))
 c_in.close()
 c_in = av.open(a.video)
 
+W, H = VID + PANEL_W, VID + BANNER_H     # both stay multiples of 16
+PANEL_X, BANNER_Y = VID, VID
 n = min(nframes, a.trim_frames) if a.trim_frames else nframes
 pathlib.Path(a.out).parent.mkdir(parents=True, exist_ok=True)
 c_out = av.open(a.out, mode="w", format="mp4")
@@ -136,7 +138,10 @@ vout.options = {"crf": "18"}
 
 def render(i, frame):
     canvas = np.zeros((H, W, 3), dtype=np.uint8)
-    canvas[0:VID, 0:VID] = np.asarray(Image.fromarray(frame).resize((VID, VID), Image.NEAREST))
+    src = Image.fromarray(frame)
+    if src.size != (VID, VID):
+        src = src.resize((VID, VID), Image.NEAREST)
+    canvas[0:VID, 0:VID] = np.asarray(src)
     im = Image.fromarray(canvas)
     d = ImageDraw.Draw(im)
     d.rectangle([PANEL_X, 0, W, BANNER_Y], fill=(24, 24, 28))

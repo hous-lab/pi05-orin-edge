@@ -56,3 +56,7 @@ Model-caliber closed-loop latency, all arms with per-call server-side records (j
 The Orin tail is razor-thin (p99 − p50 = 0.64 ms): the closed-loop model latency is essentially
 a constant 93.3 ms on the locked-clock device, and its records double as a second 500-episode
 accuracy anchor (462/500 = 92.4%, same recipe as the 461/500 primary anchor).
+
+## Demo records
+
+[demo_512_rerecord/](demo_512_rerecord/) holds the per-task JSONs behind the README demo grid: a dedicated 2-episode re-record against the shipped recipe (tasks 0, 2, 3, 4, 5, 9) on the same two-machine topology and protocol, re-rendered at 512x512 for display while the policy consumes its usual 224x224 downsample. 11/12 episodes succeed, consistent with the per-task rates of the primary 500-episode arm (the one step-limit failure on task 2 is a failure mode its 38/50 = 76% task rate already covers), and the re-record's own server-side stats over 577 calls (p50 93.76 / p95 94.60 / p99 120.69 ms, 10.6 Hz) sit on the committed anchor band (p50 93.30 ms over 26,650 calls).

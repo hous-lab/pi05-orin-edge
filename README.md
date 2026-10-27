@@ -4,16 +4,20 @@ Edge deployment of [**pi0.5**](https://github.com/Physical-Intelligence/openpi) 
 
 **Status: Active** - maintained as a research release. Results were last verified on Jetson AGX Orin 64GB (L4T 36.5.0, CUDA 12.6, torch 2.8.0+cu126, python 3.10.12) and on an RTX 4090 Laptop (Ubuntu 22.04, CUDA 12.8, torch 2.8.0+cu128, python 3.10.12); issues and PRs are welcome.
 
+## Demo
+
+Six closed-loop episodes of the shipped recipe on the two-machine topology (LIBERO-10 simulation, not real hardware):
+
+| | | |
+|:---:|:---:|:---:|
+| ![](https://github.com/user-attachments/assets/a8906f29-b3e4-4a30-9284-4d69bb4bb2a7) <br> **task 0 - success** - alphabet soup + tomato sauce into basket, 251 steps / 49 calls | ![](https://github.com/user-attachments/assets/fc97d46e-22f2-469c-9e15-d356fe790999) <br> **task 3 - success** - black bowl into drawer + close, 238 steps / 46 calls | ![](https://github.com/user-attachments/assets/ebcaebf9-d7f1-4b15-ad9c-241011b160e6) <br> **task 4 - success** - two mugs onto their plates, 208 steps / 40 calls |
+| ![](https://github.com/user-attachments/assets/f365ec43-a502-4d47-85af-85f8c43b5439) <br> **task 5 - success** - book into the caddy's back compartment, 156 steps / 30 calls | ![](https://github.com/user-attachments/assets/11b5ffd2-d971-43b1-b4cf-3c9393cfb2a5) <br> **task 9 - success** - mug into microwave + close it, 257 steps / 50 calls | ![](https://github.com/user-attachments/assets/dc19b048-961e-4565-abcb-6eccbdaff8de) <br> **task 2 - failure** - stove + moka pot, 530-step limit (clip = first 30 s of 53 s) |
+
+Each clip pairs the 512x512 agentview render with a live panel whose numbers are read from the committed records at compose time - outcome, steps, policy calls, per-episode client round-trip mean, and the 500-episode model-caliber stats. The policy consumes its usual 224x224 downsample of the same camera, and the re-record's own server-side stats (p50 93.76 ms over 577 calls) sit on the committed 500-episode anchor band (p50 93.30 ms over 26,650 calls). The last clip is a real failure: task 2's step-limit timeout, the failure mode behind its 38/50 = 76% rate in the primary 500-episode arm. Per-task JSONs: [benchmark/results/demo_512_rerecord/](benchmark/results/demo_512_rerecord/); masters ship as v1.0 release assets, and [scripts/compose_demo.py](scripts/compose_demo.py) regenerates any clip from a raw episode recording plus the committed task JSON.
+
 **How it fits together**: a two-machine topology - the LIBERO simulator and the openpi-protocol client run on an x86 host, the model server runs on Orin over the Jetson USB link. The server wraps the [FlashRT](https://github.com/flashrt-project/FlashRT) engine (PaliGemma VLM: SigLIP vision tower + Gemma LM, plus the action expert under single-step flow-matching denoise captured in a CUDA Graph); the overlay swaps in the INT8-mixed GEMM path, the fused gate/up+GEGLU epilogue kernel, and the fast-quant plumbing inside that engine.
 
 ![two-machine deployment topology with per-stage latency calibers](assets/overview.png)
-
-## Demo
-
-Two closed-loop episodes recorded by the eval harness on the shipped recipe: the frames are the exact 224x224 agentview images the policy consumed, every panel number is read from the committed records at compose time, and the clips are labeled simulation (LIBERO-10, MuJoCo) rather than real hardware. Master MP4s ship as v1.0 release assets; [scripts/compose_demo.py](scripts/compose_demo.py) regenerates them from any raw episode recording plus the committed task JSON.
-
-- Success - task 0, episode 0: *put both the alphabet soup and the tomato sauce in the basket* - 251 steps, 49 policy calls, client round-trip mean 118.4 ms: [demo_task0_ep0_success.mp4](../../releases/download/v1.0/demo_task0_ep0_success.mp4)
-- Failure - task 2, episode 1: *turn on the stove and put the moka pot on it* - 530-step timeout, 104 policy calls (the clip shows the first 30 s of a 53 s episode): [demo_task2_ep1_failure.mp4](../../releases/download/v1.0/demo_task2_ep1_failure.mp4)
 
 ## Results
 

@@ -1,0 +1,31 @@
+{
+  "episodes": [
+    {
+      "episode": 0,
+      "success": true,
+      "steps": 257,
+      "policy_calls": 50,
+      "client_infer_ms_mean": 107.6
+    },
+    {
+      "episode": 1,
+      "success": true,
+      "steps": 257,
+      "policy_calls": 50,
+      "client_infer_ms_mean": 106.3
+    }
+  ],
+  "summary": {
+    "task": "put the yellow and white mug in the microwave and close it",
+    "task_idx": 9,
+    "episodes": 2,
+    "successes": 2,
+    "success_rate": 1.0,
+    "steps_total": 514,
+    "policy_calls_total": 100,
+    "infer_ms_p50": 106.1,
+    "infer_ms_p95": 107.2,
+    "infer_ms_mean": 107.0,
+    "wall_s": null
+  }
+}

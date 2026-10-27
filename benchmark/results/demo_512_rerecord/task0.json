@@ -1,0 +1,31 @@
+{
+  "episodes": [
+    {
+      "episode": 0,
+      "success": true,
+      "steps": 290,
+      "policy_calls": 56,
+      "client_infer_ms_mean": 111.6
+    },
+    {
+      "episode": 1,
+      "success": true,
+      "steps": 251,
+      "policy_calls": 49,
+      "client_infer_ms_mean": 106.4
+    }
+  ],
+  "summary": {
+    "task": "put both the alphabet soup and the tomato sauce in the basket",
+    "task_idx": 0,
+    "episodes": 2,
+    "successes": 2,
+    "success_rate": 1.0,
+    "steps_total": 541,
+    "policy_calls_total": 105,
+    "infer_ms_p50": 106.2,
+    "infer_ms_p95": 108.9,
+    "infer_ms_mean": 109.2,
+    "wall_s": null
+  }
+}

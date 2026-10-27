@@ -30,6 +30,7 @@ class Args:
     num_steps_wait: int = 10
     video_dir: str = "./workdir/eval_task0/videos_task0"
     out_json: str = "./workdir/eval_task0/eval_task0_result.json"
+    rec_hires: bool = False  # render the agentview camera at 512x512 and save the pre-resize frames
     ws_alpha: float = -1.0  # client-side STEP warm-start; -1 = server-side (server FLASHRT_WS_ALPHA)
 
 
@@ -50,7 +51,8 @@ def main(args: Args):
     task = suite.get_task(args.task_idx)
     init_states = suite.get_task_init_states(args.task_idx)
     bddl = pathlib.Path(get_libero_path("bddl_files")) / task.problem_folder / task.bddl_file
-    env = OffScreenRenderEnv(bddl_file_name=str(bddl), camera_heights=256, camera_widths=256)
+    env = OffScreenRenderEnv(bddl_file_name=str(bddl), camera_heights=512 if args.rec_hires else 256,
+                             camera_widths=512 if args.rec_hires else 256)
     env.seed(args.seed)
     max_steps = MAX_STEPS[args.task_suite]
     print(f"TASK: {task.language}", flush=True)
@@ -71,11 +73,11 @@ def main(args: Args):
                 obs, _, _, _ = env.step(LIBERO_DUMMY_ACTION)
                 t += 1
                 continue
-            img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
-            wrist = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
-            img = image_tools.convert_to_uint8(image_tools.resize_with_pad(img, 224, 224))
-            wrist = image_tools.convert_to_uint8(image_tools.resize_with_pad(wrist, 224, 224))
-            frames.append(img)
+            img_raw = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
+            wrist_raw = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
+            img = image_tools.convert_to_uint8(image_tools.resize_with_pad(img_raw, 224, 224))
+            wrist = image_tools.convert_to_uint8(image_tools.resize_with_pad(wrist_raw, 224, 224))
+            frames.append(img_raw if args.rec_hires else img)
             if not action_plan:
                 el = {
                     "reset": bool(not action_plan and t == args.num_steps_wait),

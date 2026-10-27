@@ -1,0 +1,31 @@
+{
+  "episodes": [
+    {
+      "episode": 0,
+      "success": true,
+      "steps": 212,
+      "policy_calls": 41,
+      "client_infer_ms_mean": 106.6
+    },
+    {
+      "episode": 1,
+      "success": false,
+      "steps": 530,
+      "policy_calls": 104,
+      "client_infer_ms_mean": 107.0
+    }
+  ],
+  "summary": {
+    "task": "turn on the stove and put the moka pot on it",
+    "task_idx": 2,
+    "episodes": 2,
+    "successes": 1,
+    "success_rate": 0.5,
+    "steps_total": 742,
+    "policy_calls_total": 145,
+    "infer_ms_p50": 106.4,
+    "infer_ms_p95": 107.6,
+    "infer_ms_mean": 106.9,
+    "wall_s": null
+  }
+}
