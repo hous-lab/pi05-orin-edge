@@ -60,7 +60,7 @@ txt(79, 12.8, "92.4 ms p50 - 10.7 Hz", 11, ORANGE, weight="bold")
 ar = FancyArrowPatch((33.5, 26), (62.5, 26), arrowstyle="<->", mutation_scale=16, color=GRAY, lw=1.6)
 ax.add_patch(ar)
 txt(48, 28.6, "Jetson USB link", 10, weight="bold")
-txt(48, 26, "192.168.55.1", 9, family="monospace")
+txt(48, 26, "stock Jetson USB device-mode link", 9, GRAY)
 txt(48, 23.6, "openpi websocket protocol", 8.5, GRAY)
 
 # ---- overlay chip (what we changed) ----
