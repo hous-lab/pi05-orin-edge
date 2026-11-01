@@ -21,10 +21,12 @@ Edge deployment of [**pi0.5**](https://github.com/Physical-Intelligence/openpi) 
 
 6 closed-loop episodes of the shipped recipe on the two-machine topology in LIBERO-10 simulation MuJoCo.
 
-| | | |
+| **task 0 ✅** - alphabet soup + tomato sauce into basket | **task 3 ✅** - black bowl into drawer + close | **task 4 ✅** - two mugs onto their plates |
 |:---:|:---:|:---:|
-| <video src="https://github.com/user-attachments/assets/a8906f29-b3e4-4a30-9284-4d69bb4bb2a7" controls muted></video> <br> **task 0 ✅** - alphabet soup + tomato sauce into basket| <video src="https://github.com/user-attachments/assets/fc97d46e-22f2-469c-9e15-d356fe790999" controls muted></video> <br> **task 3 ✅** - black bowl into drawer + close | <video src="https://github.com/user-attachments/assets/ebcaebf9-d7f1-4b15-ad9c-241011b160e6" controls muted></video> <br> **task 4 ✅** - two mugs onto their plates|
-| <video src="https://github.com/user-attachments/assets/f365ec43-a502-4d47-85af-85f8c43b5439" controls muted></video> <br> **task 5 ✅** - book into the caddy's back compartment| <video src="https://github.com/user-attachments/assets/11b5ffd2-d971-43b1-b4cf-3c9393cfb2a5" controls muted></video> <br> **task 9 ✅** - mug into microwave + close it| <video src="https://github.com/user-attachments/assets/dc19b048-961e-4565-abcb-6eccbdaff8de" controls muted></video> <br> **task 2 ❌** - stove + moka pot, *step-limit timeout*|
+| https://github.com/user-attachments/assets/a8906f29-b3e4-4a30-9284-4d69bb4bb2a7 | https://github.com/user-attachments/assets/fc97d46e-22f2-469c-9e15-d356fe790999 | https://github.com/user-attachments/assets/ebcaebf9-d7f1-4b15-ad9c-241011b160e6 |
+| **task 5 ✅** - book into the caddy's back compartment | **task 9 ✅** - mug into microwave + close it | **task 2 ❌** - stove + moka pot, *step-limit timeout* |
+|:---:|:---:|:---:|
+| https://github.com/user-attachments/assets/f365ec43-a502-4d47-85af-85f8c43b5439 | https://github.com/user-attachments/assets/11b5ffd2-d971-43b1-b4cf-3c9393cfb2a5 | https://github.com/user-attachments/assets/dc19b048-961e-4565-abcb-6eccbdaff8de |
 
 Each clip's live panel (outcome, steps, policy calls, client round-trip) is read from the committed records; the task 2 clip is the real failure mode — *step-limit timeout*, which accounts for its 38/50 = 76% task rate in the 500-episode arm. Per-task JSONs: [benchmark/results/demo_512_rerecord/](benchmark/results/demo_512_rerecord/); clip masters ship as v1.0 release assets.
 
